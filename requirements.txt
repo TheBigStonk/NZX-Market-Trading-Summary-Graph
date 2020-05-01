@@ -27,7 +27,6 @@ nltk==3.5
 numpy==1.18.2
 pandas==1.0.3
 pylint==2.4.4
-pyodbc==4.0.30
 pyparsing==2.4.7
 python-dateutil==2.8.1
 pytz==2019.3

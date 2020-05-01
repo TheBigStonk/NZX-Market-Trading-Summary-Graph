@@ -1,5 +1,6 @@
 # NZX Market Trading Summary Graph
 TravisCI Build Status: [![Build Status](https://travis-ci.com/TheBigStonk/NZX-Market-Trading-Summary-Graph.svg?branch=master)](https://travis-ci.com/TheBigStonk/NZX-Market-Trading-Summary-Graph)
+--------
 ![alt text](Logo.png "Logo")
 
 ## Targetted platforms

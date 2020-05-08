@@ -5,8 +5,28 @@ import matplotlib
 matplotlib.use("TkAgg")
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 from matplotlib.figure import Figure
+import matplotlib.animation as animation
+from matplotlib import style
 
 LARGE_FONT = ("Verdana", 12)
+style.use("bmh")
+
+f = Figure(figsize=(5,5), dpi=100)
+a = f.add_subplot(111)
+
+def animate(i):
+    pullData = open("C:\\Users\\maxfr\\Documents\\NZSX-Market-Trading-Summary-Graph\\Application\\sampledata.txt", "r").read()
+    datalist = pullData.split("\n")
+    xList = []
+    yList = []
+    for eachLine in datalist:
+        if len(eachLine)>1:
+            x, y = eachLine.split(",")
+            xList.append(int(x))
+            yList.append(int(y)) 
+
+    a.clear()
+    a.plot(xList, yList)
 
 class NzxMarketTradingSummary(tk.Tk) :
 
@@ -14,7 +34,7 @@ class NzxMarketTradingSummary(tk.Tk) :
     def __init__(self, *args, **kwargs) :
         
         tk.Tk.__init__(self, *args, **kwargs)
-        tk.Tk.iconbitmap(self, default="thumbnail.ico")
+        #tk.Tk.iconbitmap(self, default="thumbnail.ico")
         tk.Tk.wm_title(self, "NzxTradingStats")
 
         container = tk.Frame(self)
@@ -25,6 +45,7 @@ class NzxMarketTradingSummary(tk.Tk) :
         # Dictionary of frames
         self.frames = {}
 
+        # Declaring Pages in the Parent frames dictionary that references itself
         for f in (StartPage, PageOne, PageTwo, PageThree):
             frame = f(container, self)
             self.frames[f] = frame
@@ -108,16 +129,16 @@ class PageThree(tk.Frame) :
         button1 = ttk.Button(self, text = "Back to Start", 
         command = lambda : controller.show_frame(StartPage))
         button1.pack()
-
-        f = Figure(figsize=(5,5), dpi=100)
-        a = f.add_subplot(111)
-        a.plot([1,2,3,4,5,6,7,8], [5,6,1,3,8,9,3,5])
         
         canvas = FigureCanvasTkAgg(f, self)
         canvas.draw()
         canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand = True)
 
-
+        toolbar = NavigationToolbar2Tk(canvas, self)
+        toolbar.update()
+        canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
+    
                
-app = NzxMarketTradingSummary()
+app = NzxMarketTradingSummary() 
+ani = animation.FuncAnimation(f, animate, interval=1000)
 app.mainloop()
